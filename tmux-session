@@ -1,18 +1,29 @@
 #!/bin/bash
 
+SESSNAME=${1:-${USER}}
+
 [ -f ${HOME}/.bashrc ] && . ${HOME}/.bashrc
 
 [ -n "${TMUX}" ] && exit 0
 
+JUNKID=999999999
 THOME="${HOME}/.tmux"
 TBIN="tmux -S ${THOME}/socket"
-TSESSION="${THOME}/${1:-default}.session"
+TSESSION="${THOME}/${SESSNAME}.session"
+if [ ! -r ${TSESSION} ]; then
+	SESSNAME="default"
+	TSESSION="${THOME}/${SESSNAME}.session"
+fi
 
-if [ -z "$(${TBIN} list-sessions)" ]; then
-	if [ -f ${TSESSION} ]; then
+if [ -z "$(${TBIN} list-sessions|grep ${SESSNAME:0:8})" ]; then
+	if [ -r ${TSESSION} ]; then
+		${TBIN} new-session -d -n DeF -s ${SESSNAME:0:8} ${SHELL}
+		${TBIN} select-window -t 0
+		${TBIN} move-window -t:${JUNKID}
 		cat ${TSESSION} | while read CURLINE ; do
 			[ -n "${CURLINE}" ] && echo ${CURLINE} |xargs ${TBIN}
 		done
+		${TBIN} kill-window -t:${JUNKID}
 	else
 		${TBIN} new-session -d
 	fi
