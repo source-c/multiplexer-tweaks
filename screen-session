@@ -1,0 +1,32 @@
+#!/bin/bash
+
+SESSNAME=${1:-${USER}}
+
+[ -f ${HOME}/.bashrc ] && . ${HOME}/.bashrc
+
+SHOME="${HOME}/.screen"
+
+SFILE=${SHOME}/${SESSNAME}.session
+[ ! -r ${SFILE} ] && SFILE=${SHOME}/default.session
+
+SCR_BIN=$(which screen)
+[ -z "${SCR_BIN}" ] && exit 1
+
+if [ ! -p /var/run/screen/S-${USER}/[0-9]*.${SESSNAME} ] && [ -r ${SFILE} ]; then
+  LINENUM=0
+  cat ${SFILE}|while read LINE;do
+    let LINENUM=${LINENUM}+1
+    oIFS="${IFS}"
+    IFS=":"
+    set -- ${LINE}
+    if [ ${LINENUM} -eq 1 ];then
+	echo ${1:-${LINENUM}} ${2:-${SHELL}} | xargs ${SCR_BIN} -A -d -m -S ${SESSNAME} -t 
+    else
+	echo ${1:-${LINENUM}} ${2:-${SHELL}}| xargs ${SCR_BIN} -A -S ${SESSNAME} -X screen -t 
+    fi
+    IFS="${oIFS}"
+  done
+fi
+reset
+exec ${SCR_BIN} -DD -RR -S ${SESSNAME}
+

@@ -1,0 +1,22 @@
+#!/bin/bash
+
+[ -f ${HOME}/.bashrc ] && . ${HOME}/.bashrc
+
+[ -n "${TMUX}" ] && exit 0
+
+THOME="${HOME}/.tmux"
+TBIN="tmux -S ${THOME}/socket"
+TSESSION="${THOME}/${1:-default}.session"
+
+if [ -z "$(${TBIN} list-sessions)" ]; then
+	if [ -f ${TSESSION} ]; then
+		cat ${TSESSION} | while read CURLINE ; do
+			[ -n "${CURLINE}" ] && echo ${CURLINE} |xargs ${TBIN}
+		done
+	else
+		${TBIN} new-session -d
+	fi
+fi
+
+exec ${TBIN} a
+
