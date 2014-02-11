@@ -1,4 +1,4 @@
-new-session -d -n ScrEEnS -s SeS 'screen-session default'
+new-window -n ScrEEnS 'screen-session default'
 new-window -n MidCom -t :2 'mc -x'
 new-window -n BinG -t :3 'elinks http://bing.com'
 new-window -n BasH -t :5 -c /media
