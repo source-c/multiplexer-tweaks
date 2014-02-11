@@ -1,5 +1,7 @@
 #!/bin/bash
 
+# See LICENSE file for copyright and license details.
+
 SESSNAME=${1:-${USER}}
 
 [ -f ${HOME}/.bashrc ] && . ${HOME}/.bashrc
