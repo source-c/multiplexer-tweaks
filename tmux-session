@@ -11,13 +11,14 @@ THOME="${HOME}/.tmux"
 TBIN="tmux -S ${THOME}/socket"
 TSESSION="${THOME}/${SESSNAME}.session"
 if [ ! -r ${TSESSION} ]; then
-	SESSNAME="default"
-	TSESSION="${THOME}/${SESSNAME}.session"
+	TSESSION="${THOME}/default.session"
 fi
 
-if [ -z "$(${TBIN} list-sessions|grep ${SESSNAME:0:8})" ]; then
+SESSNAME=${SESSNAME:0:8}
+
+if [ -z "$(${TBIN} list-sessions|grep ${SESSNAME})" ]; then
 	if [ -r ${TSESSION} ]; then
-		${TBIN} new-session -d -n DeF -s ${SESSNAME:0:8} ${SHELL}
+		${TBIN} new-session -d -n DeF -s ${SESSNAME} ${SHELL}
 		${TBIN} select-window -t 0
 		${TBIN} move-window -t:${JUNKID}
 		cat ${TSESSION} | while read CURLINE ; do
@@ -25,9 +26,8 @@ if [ -z "$(${TBIN} list-sessions|grep ${SESSNAME:0:8})" ]; then
 		done
 		${TBIN} kill-window -t:${JUNKID}
 	else
-		${TBIN} new-session -d
+		${TBIN} new-session -d -s ${SESSNAME}
 	fi
 fi
 
-exec ${TBIN} a
-
+exec ${TBIN} attach -t ${SESSNAME}
