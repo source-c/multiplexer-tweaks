@@ -1,0 +1,21 @@
+startup_message off
+deflogin on
+vbell on
+vbell_msg "   Wuff  ----  Wuff!!  "
+defscrollback 2048
+bind ^k
+bind ^\
+bind \\ quit
+bind K kill
+bind I login on
+bind O login off
+bind } history
+termcapinfo vt100 dl=5\E[M
+hardstatus off
+termcapinfo xterm*|rxvt*|kterm*|Eterm* hs:ts=\E]0;:fs=\007:ds=\E]0;\007
+hardstatus string "%h%? users: %u%?"
+termcapinfo xterm*|linux*|rxvt*|Eterm* OP
+termcapinfo xterm 'is=\E[r\E[m\E[2J\E[H\E[?7h\E[?1;4;6l'
+termcapinfo xterm|xterms|xs|rxvt ti@:te@
+defnonblock 5
+caption always "%{Wk}%H%{gk} |%c %{yk}%d.%m.%Y |%{= gk}%n - %t%{-}%{rk}|%W|"
