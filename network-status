@@ -1,0 +1,24 @@
+#!/bin/bash
+
+typeset -ug DEFIF
+
+function getif(){
+cat /proc/net/route|while read LINE; do
+  oIFS=$IFS
+  set -- $LINE
+  if [ "$2"x = "00000000"x ]; then
+    echo ${1:0:1}
+        break
+  fi
+  IFS=$oIFS
+done
+}
+
+DEFIF=$(getif)
+
+if [ -z "${DEFIF}" ]; then
+  echo '-'
+else
+  echo $DEFIF
+fi
+exit 0
