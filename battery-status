@@ -1,0 +1,17 @@
+#!/bin/dash
+
+_PATH="/sys/class/power_supply/BAT1"
+
+if [ -r "${_PATH}/capacity" ]; then
+        cat ${_PATH}/capacity
+else
+        NOW=`cat ${_PATH}/energy_now 2>/dev/null`
+        FULL=`cat ${_PATH}/energy_full 2>/dev/null`
+
+        if [ -z ${NOW} ] || [ -z ${FULL} ]; then
+                echo N/A
+        else
+                echo 100*${NOW}/${FULL}|bc
+        fi
+fi
+exit 0
