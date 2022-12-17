@@ -1,3 +1,3 @@
-[submodule "temperature/apple-sensors-m1"]
-	path = temperature/apple-sensors-m1
+[submodule "temperature/mac-arm-m1"]
+	path = temperature/mac-arm-m1
 	url = https://github.com/source-c/apple-sensors-m1.git
