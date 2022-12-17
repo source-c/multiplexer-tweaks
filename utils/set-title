@@ -1,0 +1,9 @@
+#!/bin/bash
+
+join(){
+  IFS=$1;
+  shift;
+  echo "$*"
+}
+TITLE=`join ' ' $@`
+echo -ne "\033]0;${TITLE:0:64}\007"

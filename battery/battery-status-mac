@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+current_level=$(pmset -g batt|grep InternalBattery-0|sed -n 's#.*[[:space:]]\([[:digit:]]\{1,\}\)%.*#\1#p')
+
+[[ -z ${current_level} ]] && current_level='--'
+
+echo ${current_level}
+

@@ -9,7 +9,7 @@ else
         FULL=`cat ${_PATH}/energy_full 2>/dev/null`
 
         if [ -z ${NOW} ] || [ -z ${FULL} ]; then
-                echo N/A
+                echo "--"
         else
                 echo 100*${NOW}/${FULL}|bc
         fi
