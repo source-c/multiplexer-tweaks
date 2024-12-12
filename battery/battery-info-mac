@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+pmset -g batt
+ioreg -w 0 -f -r -c AppleSmartBattery|grep \"CurrentCapacity\"
